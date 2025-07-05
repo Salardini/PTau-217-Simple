@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustrative Cases - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f8f8; /* Very light gray */
+            min-height: 100vh;
+            padding: 20px;
+            color: #333333; /* Dark gray */
+            line-height: 1.7;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #e0e0e0; /* Light gray */
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #555555; /* Medium gray */
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #cccccc; /* Lighter gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar a.active {
+            background-color: #81d4fa; /* Light blue */
+            color: #333333; /* Dark gray */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            overflow: hidden;
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .header {
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); /* Light blue gradient */
+            color: #333333; /* Dark gray */
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #e3f2fd; /* Very light blue */
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #333333; /* Dark gray */
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #555555; /* Medium gray */
+        }
+
+        .content {
+            padding: 40px;
+            background: #ffffff; /* White */
+        }
+
+        .intro-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f5f5f5; /* Very light gray */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+        }
+
+        .intro-section h2 {
+            color: #333333; /* Dark gray */
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #81d4fa; /* Light blue */
+            padding-bottom: 12px;
+        }
+
+        .intro-section p {
+            color: #555555; /* Medium gray */
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .case-card {
+            background: #f5f5f5; /* Very light gray */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .case-number {
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%); /* Medium blue gradient */
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .case-title {
+            color: #333333; /* Dark gray */
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .case-subtitle {
+            color: #555555; /* Medium gray */
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .patient-info {
+            background: #ffffff; /* White */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .patient-info h4 {
+            color: #42a5f5; /* Medium blue */
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f5f5f5; /* Very light gray */
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .info-label {
+            color: #555555; /* Medium gray */
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            color: #333333; /* Dark gray */
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .test-result {
+            background: #ffffff; /* White */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-result h4 {
+            color: #42a5f5; /* Medium blue */
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .test-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .test-interpretation {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .negative-result {
+            color: #4caf50; /* Green */
+            background: rgba(76, 175, 80, 0.1); /* Green with 10% opacity */
+            border: 1px solid rgba(76, 175, 80, 0.3); /* Green with 30% opacity */
+        }
+
+        .indeterminate-result {
+            color: #ffc107; /* Amber */
+            background: rgba(255, 193, 7, 0.1); /* Amber with 10% opacity */
+            border: 1px solid rgba(255, 193, 7, 0.3); /* Amber with 30% opacity */
+        }
+
+        .positive-result {
+            color: #f44336; /* Red */
+            background: rgba(244, 67, 54, 0.1); /* Red with 10% opacity */
+            border: 1px solid rgba(244, 67, 54, 0.3); /* Red with 30% opacity */
+        }
+
+        .risk-results {
+            background: #ffffff; /* White */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .risk-results h4 {
+            color: #42a5f5; /* Medium blue */
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .risk-item {
+            background: #f5f5f5; /* Very light gray */
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .risk-label {
+            color: #555555; /* Medium gray */
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .risk-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .risk-comparison {
+            color: #555555; /* Medium gray */
+            font-size: 0.8rem;
+        }
+
+        .clinical-interpretation {
+            background: #ffffff; /* White */
+            border: 1px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .clinical-interpretation h4 {
+            color: #42a5f5; /* Medium blue */
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .clinical-interpretation p {
+            color: #555555; /* Medium gray */
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .recommendation {
+            background: #fffde7; /* Very light yellow */
+            border: 1px solid #ffecb3; /* Light yellow */
+            border-left: 4px solid #ffc107; /* Amber */
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .recommendation h5 {
+            color: #ffc107; /* Amber */
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .recommendation p {
+            color: #555555; /* Medium gray */
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%); /* Medium blue gradient */
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            margin-right: 15px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%); /* Darker blue gradient */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(129, 212, 250, 0.3); /* Light blue with 30% opacity */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid, .risk-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index_simple.html">Home</a>
+        <a href="background_simple.html">About the Test</a>
+        <a href="about_the_calculator.html">How it Works</a>
+        <a href="how_to_use.html">How to Use</a>
+        <a href="cases_simple.html" class="active">Examples</a>
+        <a href="viewpoint_simple.html">Our View</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Examples</h1>
+            <p>How the Alzheimer's Risk Calculator Can Be Used</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Example Stories</h2>
+                <p>These stories show how the Alzheimer's risk calculator can be used in different situations. They are not real people, but they are based on real situations.</p>
+            </div>
+
+            <div class="cases-grid">
+                <!-- Case 1: Low Risk -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">1</div>
+                        <div>
+                            <div class="case-title">A Person with Some Memory Worries</div>
+                            <div class="case-subtitle">Low Risk Example</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>About the Person</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">68</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Female</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Memory Concerns</div>
+                                <div class="info-value">Some changes</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Gene Type</div>
+                                <div class="info-value">E3/E3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Their Story</h4>
+                        <p>A 68-year-old woman is worried because she has been forgetting things more often. Her doctor did some tests and said her memory is normal for her age. But she is still worried because her mother had Alzheimer's. She took the blood test to see what her risk is.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Blood Test Result</h4>
+                        <div class="test-value negative-result">Negative</div>
+                        <div class="test-interpretation negative-result">
+                            This means it is very unlikely she has the brain changes of Alzheimer's disease.
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Her Risk</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Risk Level</div>
+                                <div class="risk-percentage negative-result">Low</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>What This Means</h4>
+                        <p>This woman has a very low risk of getting Alzheimer's disease. Her doctor will look for other reasons for her memory worries.</p>
+                    </div>
+                </div>
+
+                <!-- Case 2: Indeterminate Risk -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">2</div>
+                        <div>
+                            <div class="case-title">A Person with Mild Memory Problems</div>
+                            <div class="case-subtitle">In-Between Risk Example</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>About the Person</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">74</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Male</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Memory Concerns</div>
+                                <div class="info-value">Memory problems are interfering with my life</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Gene Type</div>
+                                <div class="info-value">E3/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Their Story</h4>
+                        <p>A 74-year-old man is having some memory problems that are starting to affect his daily life. His family is worried about him. He has a gene that puts him at a higher risk for Alzheimer's. He took the blood test to help his doctor decide what to do next.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Blood Test Result</h4>
+                        <div class="test-value indeterminate-result">In-between</div>
+                        <div class="test-interpretation indeterminate-result">
+                            This means it is not clear if he has the brain changes of Alzheimer's disease.
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>His Risk</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Risk Level</div>
+                                <div class="risk-percentage indeterminate-result">High</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>What This Means</h4>
+                        <p>This man has a high risk of getting Alzheimer's disease. His doctor will probably want to do more tests to be sure.</p>
+                    </div>
+                </div>
+
+                <!-- Case 3: High Risk Young -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">3</div>
+                        <div>
+                            <div class="case-title">A Younger Person with Memory Problems</div>
+                            <div class="case-subtitle">High Risk Example</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>About the Person</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">62</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Male</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Memory Concerns</div>
+                                <div class="info-value">Memory problems are interfering with my life</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Gene Type</div>
+                                <div class="info-value">E4/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Their Story</h4>
+                        <p>A 62-year-old man is having serious memory problems. He has a gene that puts him at a very high risk for Alzheimer's. His father also had Alzheimer's at a young age. He took the blood test to help his doctor decide on a treatment plan.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Blood Test Result</h4>
+                        <div class="test-value positive-result">Positive</div>
+                        <div class="test-interpretation positive-result">
+                            This means it is very likely he has the brain changes of Alzheimer's disease.
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>His Risk</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Risk Level</div>
+                                <div class="risk-percentage positive-result">Very High</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>What This Means</h4>
+                        <p>This man has a very high risk of getting Alzheimer's disease. His doctor will likely diagnose him with Alzheimer's and start him on a treatment plan.</p>
+                    </div>
+                </div>
+
+                <!-- Case 4: High Risk Elderly -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">4</div>
+                        <div>
+                            <div class="case-title">An Older Person with Dementia</div>
+                            <div class="case-subtitle">Very High Risk Example</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>About the Person</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">82</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Female</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Memory Concerns</div>
+                                <div class="info-value">I need help with daily activities</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Gene Type</div>
+                                <div class="info-value">E3/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Their Story</h4>
+                        <p>An 82-year-old woman has been having memory problems for a few years. She now needs help with many daily tasks. Her doctor thinks she has Alzheimer's, but wants to be sure. She took the blood test to confirm the diagnosis.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Blood Test Result</h4>
+                        <div class="test-value positive-result">Positive</div>
+                        <div class="test-interpretation positive-result">
+                            This means it is very likely she has the brain changes of Alzheimer's disease.
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Her Risk</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Risk Level</div>
+                                <div class="risk-percentage positive-result">Very High</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>What This Means</h4>
+                        <p>This woman has a very high risk of having Alzheimer's disease. The blood test confirms what her doctor already thought. Her doctor will now be able to create a treatment plan for her.</p>
+                    </div>
+                    <div class="recommendation">
+                        <h5>What to do next:</h5>
+                        <p>Talk to your doctor about these results. They can help you understand what they mean for you and what steps you should take.</p>
+                    </div>
+                </div>
+            </div>

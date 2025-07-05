@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Disease Risk Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f8f8; /* Very light gray */
+            min-height: 100vh;
+            padding: 20px;
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #e0e0e0; /* Light gray */
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #555555; /* Medium gray */
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #cccccc; /* Lighter gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar a.active {
+            background-color: #81d4fa; /* Light blue */
+            color: #333333; /* Dark gray */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background: #ffffff; /* White */
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05); /* Lighter shadow */
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #888888; /* Darker gray for better contrast */
+            font-size: 40px; /* Larger size */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 5px; /* Add some padding to make it easier to click */
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #333333; /* Dark gray */
+        }
+
+        .welcome-section {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .welcome-section h2 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        .welcome-section p {
+            color: #555555; /* Medium gray */
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            overflow: hidden;
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .header {
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); /* Light blue gradient */
+            color: #333333; /* Dark gray */
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #e3f2fd; /* Very light blue */
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #333333; /* Dark gray */
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #555555; /* Medium gray */
+        }
+
+        .background-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%); /* Medium blue gradient */
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .background-link:hover {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%); /* Darker blue gradient */
+            box-shadow: 0 4px 12px rgba(129, 212, 250, 0.3); /* Light blue with 30% opacity */
+        }
+
+        .content {
+            padding: 40px;
+            background: #ffffff; /* White */
+        }
+
+        .warning {
+            background: #fffde7; /* Very light yellow */
+            border: 1px solid #ffecb3; /* Light yellow */
+            border-left: 4px solid #ffc107; /* Amber */
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .warning h3 {
+            color: #ffc107; /* Amber */
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .warning p {
+            color: #555555; /* Medium gray */
+            line-height: 1.7;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: #333333; /* Dark gray for readability */
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e0e0e0; /* Light gray border */
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #555555; /* Medium gray for readability */
+            font-size: 15px;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f5f5f5; /* Very light gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .form-group select:focus, .form-group input:focus {
+            outline: none;
+            border-color: #81d4fa; /* Light blue */
+            box-shadow: 0 0 0 3px rgba(129, 212, 250, 0.1); /* Light blue with 10% opacity */
+            background: #e3f2fd; /* Very light blue */
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%); /* Medium blue gradient */
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .calculate-btn:hover {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%); /* Darker blue gradient */
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(129, 212, 250, 0.3); /* Light blue with 30% opacity */
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 30px;
+            background: #e3f2fd; /* Very light blue */
+            border-radius: 8px;
+            border-left: 4px solid #2196f3; /* Blue */
+            border: 1px solid #90caf9; /* Light blue */
+        }
+
+        .results h3 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .risk-card {
+            background: #ffffff; /* White */
+            padding: 28px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Lighter shadow */
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .risk-card h4 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .risk-card p {
+            color: #555555; /* Medium gray */
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .risk-card strong {
+            color: #333333; /* Dark gray */
+        }
+
+        .risk-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .low-risk { color: #4caf50; } /* Green */
+        .medium-risk { color: #ffc107; } /* Amber */
+        .high-risk { color: #ff9800; } /* Orange */
+        .very-high-risk { color: #f44336; } /* Red */
+
+        .disclaimer {
+            background: #e0e0e0; /* Light gray */
+            border: 1px solid #bdbdbd; /* Medium gray */
+            border-left: 4px solid #9e9e9e; /* Darker gray */
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+
+        .disclaimer h4 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .disclaimer p {
+            color: #555555; /* Medium gray */
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="welcomeModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="closeWelcome">&times;</span>
+            <div class="welcome-section">
+                <h2>Welcome to the Alzheimer's Risk Calculator</h2>
+                <p>This tool helps you understand your risk for Alzheimer's disease based on a blood test, your age, and other factors. It is based on real patient data and is designed to help you and your doctor make informed decisions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index_simple.html" class="active">Home</a>
+        <a href="background_simple.html">About the Test</a>
+        <a href="about_the_calculator.html">How it Works</a>
+        <a href="how_to_use.html">How to Use</a>
+        <a href="cases_simple.html">Examples</a>
+        <a href="viewpoint_simple.html">Our View</a>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Alzheimer's Disease Risk Calculator</h1>
+            <p>Based on pTau 217/β-Amyloid 1-42 Plasma Ratio Test</p>
+            
+        </div>
+
+        <div class="content">
+            <div class="warning">
+                <h3>Important Information</h3>
+                <p>This tool is for learning purposes only. It is not a substitute for a doctor's advice. This blood test is for people over 50 who are having memory problems. Always talk to a doctor for a real diagnosis.</p>
+            </div>
+
+            <form id="riskForm">
+                <div class="form-section">
+                    <h3>Your Information</h3>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="age">Age:</label>
+                            <input type="number" id="age" min="50" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">Sex:</label>
+                            <select id="sex" required>
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="cognitive-status">Memory Concerns:</label>
+                            <select id="cognitive-status" required>
+                                <option value="">Select</option>
+                                <option value="scd">I've noticed some changes</option>
+                                <option value="mci">Memory problems are interfering with my life</option>
+                                <option value="dementia">I need help with daily activities</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="apoe-status">Gene Type (if you know it):</label>
+                            <select id="apoe-status">
+                                <option value="unknown">I don't know</option>
+                                <option value="e2/e2">E2/E2</option>
+                                <option value="e2/e3">E2/E3</option>
+                                <option value="e2/e4">E2/E4</option>
+                                <option value="e3/e3">E3/E3</option>
+                                <option value="e3/e4">E3/E4</option>
+                                <option value="e4/e4">E4/E4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Your Test Results</h3>
+                    <div class="form-group">
+                        <label for="test-result">Blood Test Result:</label>
+                        <select id="test-result" required>
+                            <option value="">Select</option>
+                            <option value="negative">Negative</option>
+                            <option value="indeterminate">In-between</option>
+                            <option value="positive">Positive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">Calculate Risk</button>
+            </form>
+
+            <div id="results" class="results hidden">
+                <h3>Risk Assessment Results</h3>
+                <div id="risk-content"></div>
+            </div>
+
+            <div class="disclaimer">
+                <h4>Important Notes</h4>
+                <p><strong>Test Limitations:</strong> This test is not intended as a screening or stand-alone diagnostic test. Results must be interpreted in conjunction with other clinical information by qualified healthcare providers.</p>
+                <br>
+                <p><strong>Data Source:</strong> Risk calculations are based on clinical data from FDA clearance document K242706 for the Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio test and published epidemiological studies.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeModal = document.getElementById('welcomeModal');
+            const closeWelcomeBtn = document.getElementById('closeWelcome');
+
+            // Show modal only on first visit per session
+            if (sessionStorage.getItem('welcomeShown') !== 'true') {
+                welcomeModal.classList.remove('hidden');
+                sessionStorage.setItem('welcomeShown', 'true');
+            }
+
+            if (welcomeModal && closeWelcomeBtn) {
+                closeWelcomeBtn.onclick = function() {
+                    welcomeModal.classList.add('hidden');
+                }
+                // Optional: close if clicking outside of the modal content
+                window.onclick = function(event) {
+                    if (event.target == welcomeModal) {
+                        welcomeModal.classList.add('hidden');
+                    }
+                }
+                // Close modal on Escape key press
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && !welcomeModal.classList.contains('hidden')) {
+                        welcomeModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            const baseRiskData = {
+                annual: {
+                    '50-59': 0.5, '60-64': 1.0, '65-69': 2.0, '70-74': 4.0, '75-79': 8.0, '80-84': 16.0, '85+': 32.0
+                },
+                cumulative10: {
+                    '50-59': 0.5, '60-64': 1.5, '65-69': 3.0, '70-74': 6.0, '75-79': 12.0, '80-84': 24.0, '85+': 40.0
+                }
+            };
+
+            const testModifiers = {
+                'negative': { likelihood: 0.03, description: 'Very low likelihood of amyloid pathology' },
+                'indeterminate': { likelihood: 0.96, description: 'Uncertain amyloid pathology status' },
+                'positive': { likelihood: 10.68, description: 'High likelihood of amyloid pathology' }
+            };
+
+            const apoeModifiers = {
+                'e2/e2': 0.6, 'e2/e3': 0.8, 'e2/e4': 1.2, 'e3/e3': 1.0, 'e3/e4': 2.5, 'e4/e4': 10.0, 'unknown': 1.0
+            };
+
+            const cognitiveModifiers = {
+                'scd': 1.0, 'mci': 3.0, 'dementia': 8.0
+            };
+
+            function getAgeGroup(age) {
+                if (age < 60) return '50-59';
+                if (age < 65) return '60-64';
+                if (age < 70) return '65-69';
+                if (age < 75) return '70-74';
+                if (age < 80) return '75-79';
+                if (age < 85) return '80-84';
+                return '85+';
+            }
+
+            function calculateRisk(formData) {
+                const ageGroup = getAgeGroup(formData.age);
+                const baseAnnual = baseRiskData.annual[ageGroup];
+                const base10Year = baseRiskData.cumulative10[ageGroup];
+                const testModifier = testModifiers[formData.testResult];
+                const apoeModifier = apoeModifiers[formData.apoeStatus];
+                const cognitiveModifier = cognitiveModifiers[formData.cognitiveStatus];
+                const modifiedAnnual = Math.min(100, baseAnnual * testModifier.likelihood * apoeModifier * cognitiveModifier);
+                const modified10Year = Math.min(100, base10Year * testModifier.likelihood * apoeModifier * cognitiveModifier);
+
+                return {
+                    base: { annual: baseAnnual, tenYear: base10Year },
+                    modified: { annual: modifiedAnnual, tenYear: modified10Year },
+                    testResult: testModifier,
+                    ageGroup: ageGroup
+                };
+            }
+
+            function getRiskClass(percentage) {
+                if (percentage < 5) return 'low-risk';
+                if (percentage < 15) return 'medium-risk';
+                if (percentage < 50) return 'high-risk';
+                return 'very-high-risk';
+            }
+
+            function displayResults(riskData, formData) {
+                const resultsDiv = document.getElementById('results');
+                const contentDiv = document.getElementById('risk-content');
+                if (!resultsDiv || !contentDiv) return;
+
+                const annualRiskCategory = getRiskClass(riskData.modified.annual);
+                const tenYearRiskCategory = getRiskClass(riskData.modified.tenYear);
+
+                contentDiv.innerHTML = `
+                    <div class="risk-card">
+                        <h4>Test Interpretation</h4>
+                        <p><strong>Result:</strong> ${formData.testResult.charAt(0).toUpperCase() + formData.testResult.slice(1)}</p>
+                        <p><strong>Clinical Meaning:</strong> ${riskData.testResult.description}</p>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Your Risk Level (Next Year)</h4>
+                        <div class="risk-percentage ${annualRiskCategory}">${annualRiskCategory.replace('-', ' ')}</div>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Your 10-Year Risk Level</h4>
+                        <div class="risk-percentage ${tenYearRiskCategory}">${tenYearRiskCategory.replace('-', ' ')}</div>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Your Information</h4>
+                        <ul style="margin-left: 20px; line-height: 1.8; color: #cccccc;">
+                            <li><strong style="color: #ffffff;">Age:</strong> ${formData.age}</li>
+                            <li><strong style="color: #ffffff;">Memory Concerns:</strong> ${formData.cognitiveStatus.toUpperCase()}</li>
+                            <li><strong style="color: #ffffff;">Gene Type:</strong> ${formData.apoeStatus}</li>
+                            <li><strong style="color: #ffffff;">Test Result:</strong> ${formData.testResult}</li>
+                        </ul>
+                    </div>
+                `;
+                resultsDiv.classList.remove('hidden');
+                resultsDiv.style.display = 'block';
+                setTimeout(() => {
+                    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+
+            function getRecommendations(testResult, tenYearRisk) {
+                let recommendations = '';
+                if (testResult === 'negative') {
+                    recommendations = `<p><strong>Low amyloid likelihood:</strong> Investigate other causes of cognitive symptoms.</p><p>Continue routine cognitive monitoring and maintain healthy lifestyle practices.</p>`;
+                } else if (testResult === 'indeterminate') {
+                    recommendations = `<p><strong>Uncertain result:</strong> Consider additional testing or clinical follow-up.</p><p>May benefit from repeat testing or alternative amyloid assessment methods.</p>`;
+                } else {
+                    recommendations = `<p><strong>High amyloid likelihood:</strong> Increased monitoring and potential intervention planning.</p><p>Consider referral to specialized memory care clinic for comprehensive evaluation.</p>`;
+                }
+                if (tenYearRisk > 15) {
+                    recommendations += `<p><strong>High 10-year risk:</strong> Discuss prevention strategies and care planning with healthcare team.</p>`;
+                }
+                return recommendations;
+            }
+
+            const form = document.getElementById('riskForm');
+            const calculateBtn = document.querySelector('.calculate-btn');
+            
+            calculateBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const age = document.getElementById('age').value;
+                const sex = document.getElementById('sex').value;
+                const cognitiveStatus = document.getElementById('cognitive-status').value;
+                const apoeStatus = document.getElementById('apoe-status').value;
+                const testResult = document.getElementById('test-result').value;
+                
+                if (!age || !sex || !cognitiveStatus || !testResult) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                const formData = {
+                    age: parseInt(age),
+                    sex: sex,
+                    cognitiveStatus: cognitiveStatus,
+                    apoeStatus: apoeStatus || 'unknown',
+                    testResult: testResult
+                };
+
+                try {
+                    const riskData = calculateRisk(formData);
+                    displayResults(riskData, formData);
+                } catch (error) {
+                    console.error('Error calculating risk:', error);
+                    alert('Error calculating risk. Please check your inputs.');
+                }
+            });
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateBtn.click();
+            });
+        });
+    </script>
+</body>
+</html>

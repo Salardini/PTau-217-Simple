@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAMA Viewpoint - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f8f8; /* Very light gray */
+            min-height: 100vh;
+            padding: 20px;
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #e0e0e0; /* Light gray */
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #555555; /* Medium gray */
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #cccccc; /* Lighter gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar a.active {
+            background-color: #81d4fa; /* Light blue */
+            color: #333333; /* Dark gray */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            overflow: hidden;
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .header {
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); /* Light blue gradient */
+            color: #333333; /* Dark gray */
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #e3f2fd; /* Very light blue */
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #333333; /* Dark gray */
+        }
+
+        .content {
+            padding: 40px;
+            background: #ffffff; /* White */
+        }
+
+        .content h2 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 24px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e0e0e0; /* Light gray */
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content h3 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e0e0e0; /* Light gray */
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #555555; /* Medium gray */
+        }
+
+        .content a {
+            color: #42a5f5; /* Medium blue */
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .author-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f5f5f5; /* Very light gray */
+            border-radius: 8px;
+            color: #555555; /* Medium gray */
+        }
+        
+        .visualization {
+            width: 100%;
+            height: 400px;
+            background-color: #e0e0e0; /* Light gray */
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index_simple.html">Home</a>
+        <a href="background_simple.html">About the Test</a>
+        <a href="about_the_calculator.html">How it Works</a>
+        <a href="how_to_use.html">How to Use</a>
+        <a href="cases_simple.html">Examples</a>
+        <a href="viewpoint_simple.html" class="active">Our View</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Our View on Alzheimer's Blood Tests</h1>
+        </div>
+
+        <div class="content">
+            <div class="author-info">
+                <p><strong>Author:</strong> Arash Salardini, MD</p>
+                <p>This article shares a doctor's thoughts on new blood tests for Alzheimer's disease.</p>
+            </div>
+
+            <p>New blood tests for Alzheimer's disease are exciting because they are simpler and cheaper than older tests. But it's important to understand what these tests can and cannot do.</p>
+
+            <p>Many doctors are excited about these tests because they seem very accurate. However, these tests were first studied in groups of people who were already very likely to have Alzheimer's. When we use these tests on people in the general public, the results can be different.</p>
+
+            <h3>Why the Test Results Can Be Tricky</h3>
+            <p>Imagine a test that is very good at finding a rare disease. If you test a lot of people who don't have the disease, you will get many "false positives." This means the test says they have the disease, but they don't. This can cause a lot of worry and lead to unnecessary tests and treatments.</p>
+            
+            <p>On the other hand, if the test says you don't have Alzheimer's, it's usually very accurate. This can help doctors look for other reasons for memory problems.</p>
+
+            <h3>What the Tests Really Measure</h3>
+            <p>These blood tests look for a protein called amyloid in the brain. But having amyloid in your brain doesn't always mean you will get Alzheimer's disease. Many older people have amyloid in their brains but never get sick. So, a positive test means you have a higher risk, not that you definitely have Alzheimer's.</p>
+
+            <p>There are new treatments for Alzheimer's, but they have risks and are not for everyone. It's important to talk to your doctor about all the pros and cons before starting any treatment based only on a blood test.</p>
+
+            <h3>What Doctors Should Do</h3>
+            <p>To use these tests wisely, doctors should:</p>
+            <ol>
+                <li><strong>Test the Right People:</strong> Only test people over 55 who have ongoing memory problems.</li>
+                <li><strong>Talk to Patients First:</strong> Explain what the test measures, what the results mean, and what the next steps are.</li>
+                <li><strong>Confirm Results:</strong> A positive blood test should lead to more tests to confirm Alzheimer's before starting treatment.</li>
+                <li><strong>Use Negative Results:</strong> If the test is negative, doctors should look for other causes of memory problems.</li>
+                <li><strong>Work Together:</strong> Primary care doctors can use these tests to decide if a patient needs to see a specialist. Specialists can then help with more complex cases.</li>
+            </ol>
+
+            <p>These blood tests are a big step forward, but they need to be used carefully. Doctors and patients need to work together to make sure these tests help people without causing unnecessary worry or harm.</p>
+        </div>
+    </div>
+
+    

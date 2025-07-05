@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Model - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f8f8; /* Very light gray */
+            min-height: 100vh;
+            padding: 20px;
+            color: #333333; /* Dark gray */
+            line-height: 1.7;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #e0e0e0; /* Light gray */
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #555555; /* Medium gray */
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #cccccc; /* Lighter gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar a.active {
+            background-color: #81d4fa; /* Light blue */
+            color: #333333; /* Dark gray */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            overflow: hidden;
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .header {
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); /* Light blue gradient */
+            color: #333333; /* Dark gray */
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #e3f2fd; /* Very light blue */
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #333333; /* Dark gray */
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #555555; /* Medium gray */
+        }
+
+        .content {
+            padding: 40px;
+            background: #ffffff; /* White */
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333333; /* Dark gray */
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #81d4fa; /* Light blue */
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .section p {
+            color: #555555; /* Medium gray */
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%); /* Medium blue gradient */
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%); /* Darker blue gradient */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(129, 212, 250, 0.3); /* Light blue with 30% opacity */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index_simple.html">Home</a>
+        <a href="background_simple.html">About the Test</a>
+        <a href="about_the_calculator.html" class="active">How it Works</a>
+        <a href="how_to_use.html">How to Use</a>
+        <a href="cases_simple.html">Examples</a>
+        <a href="viewpoint_simple.html">Our View</a>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>About the Calculator</h1>
+            <p>Information about how this tool works.</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>What the Calculator Does</h2>
+                <p>This calculator is a tool that helps you understand your risk for Alzheimer's disease. It is not a diagnosis. It is meant to be used with your doctor to help you make decisions about your health.</p>
+                <p>The calculator uses information from a blood test, your age, and your memory concerns to estimate your risk. It also uses information about your genes, if you know it.</p>
+            </div>
+
+            <div class="section">
+                <h2>Where the Information Comes From</h2>
+                <p>The information in this calculator comes from a study of almost 500 people who were having memory problems. The study was reviewed by the FDA, which is the part of the government that makes sure medicines and medical tests are safe and work the way they are supposed to.</p>
+                <p>We also used information from other studies about how many people get Alzheimer's at different ages, and how your genes can affect your risk.</p>
+            </div>
+
+            <div class="section">
+                <h2>Your Privacy</h2>
+                <p>This calculator does not save any of your information. Everything you enter is only used to calculate your risk and is not stored anywhere.</p>
+            </div>
+
+            <div class="section">
+                <h2>What the Results Mean</h2>
+                <p>The calculator will give you a risk level: low, medium, high, or very high. This is an estimate of your risk of developing Alzheimer's disease in the next few years.</p>
+                <p>A low risk means you are unlikely to have Alzheimer's. A high or very high risk means you are more likely to have Alzheimer's. A medium risk is in between.</p>
+                <p>It is important to remember that this is just an estimate. It is not a diagnosis. You should always talk to your doctor about your results.</p>
+            </div>
+
+            <a href="index_simple.html" class="back-link">← Back to the Calculator</a>
+        </div>
+    </div>
+</body>
+</html>

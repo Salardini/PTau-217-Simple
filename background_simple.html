@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Risk Calculator - Data Visualizations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f8f8; /* Very light gray */
+            line-height: 1.6;
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #e0e0e0; /* Light gray */
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #555555; /* Medium gray */
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #cccccc; /* Lighter gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .navbar a.active {
+            background-color: #81d4fa; /* Light blue */
+            color: #333333; /* Dark gray */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); /* Light blue gradient */
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            border: 1px solid #e0e0e0; /* Light gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .header h1 {
+            color: #333333; /* Dark gray */
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #555555; /* Medium gray */
+            font-size: 1.2rem;
+        }
+
+        .references {
+            background: #ffffff; /* White */
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e0e0e0; /* Light gray */
+            margin-top: 20px;
+        }
+
+        .references h2 {
+            color: #333333; /* Dark gray */
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #81d4fa; /* Light blue */
+            padding-bottom: 10px;
+        }
+
+        .references ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            color: #555555; /* Medium gray */
+        }
+
+        .references li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .references li a {
+            color: #42a5f5; /* Medium blue */
+            text-decoration: none;
+        }
+
+        .references li a:hover {
+            text-decoration: underline;
+        }
+
+        .figure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .figure-panel {
+            background: #ffffff; /* White */
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .figure-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333333; /* Dark gray */
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #81d4fa; /* Light blue */
+            padding-bottom: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+
+        .chart-small {
+            height: 300px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f5f5f5; /* Very light gray */
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #81d4fa; /* Light blue */
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333333; /* Dark gray */
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #555555; /* Medium gray */
+            margin-top: 5px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .heatmap-container {
+            overflow-x: auto;
+        }
+
+        .heatmap {
+            min-width: 600px;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .heatmap th, .heatmap td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e0e0e0; /* Light gray */
+            font-weight: 500;
+        }
+
+        .heatmap th {
+            background: #e0e0e0; /* Light gray */
+            color: #333333; /* Dark gray */
+        }
+
+        .heatmap .risk-low { background: #e8f5e9; color: #4caf50; } /* Light green */
+        .heatmap .risk-medium { background: #fffde7; color: #ffc107; } /* Very light yellow */
+        .heatmap .risk-high { background: #ffebee; color: #f44336; } /* Light red */
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .performance-card {
+            background: #f5f5f5; /* Very light gray */
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0; /* Light gray */
+        }
+
+        .performance-card h4 {
+            color: #333333; /* Dark gray */
+            margin-bottom: 10px;
+        }
+
+        .lr-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .lr-negative { color: #4caf50; } /* Green */
+        .lr-neutral { color: #ffc107; } /* Amber */
+        .lr-positive { color: #f44336; } /* Red */
+
+        @media (max-width: 768px) {
+            .figure-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="navbar">
+        <a href="index_simple.html">Home</a>
+        <a href="background_simple.html" class="active">About the Test</a>
+        <a href="about_the_calculator.html">How it Works</a>
+        <a href="how_to_use.html">How to Use</a>
+        <a href="cases_simple.html">Examples</a>
+        <a href="viewpoint_simple.html">Our View</a>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>About the Blood Test</h1>
+            <p>Understanding the pTau 217/β-Amyloid 1-42 Plasma Ratio Test</p>
+        </div>
+
+        <div class="figure-panel full-width">
+            <div style="padding: 0 20px;">
+                <h2 style="color: #333333; margin-bottom: 20px; font-size: 1.6rem;">What is this test?</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555555; margin-bottom: 15px;">
+                    This is a blood test that helps doctors understand if a person might have a protein in their brain called amyloid. Amyloid is linked to Alzheimer's disease. The test measures two things in the blood: pTau 217 and β-Amyloid 1-42. The relationship between these two gives us a clue about what might be happening in the brain.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555555; margin-bottom: 15px;">
+                    This test is for people who are having problems with their memory or thinking. It is not for people without any symptoms. A doctor will use the results of this test along with other information to figure out what is causing the memory problems.
+                </p>
+            </div>
+        </div>
+
+        <div class="figure-panel full-width">
+            <div style="padding: 0 20px;">
+                <h2 style="color: #333333; margin-bottom: 20px; font-size: 1.6rem;">How does this fit with memory problems?</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555555; margin-bottom: 15px;">
+                    Memory problems can be caused by many different things. Sometimes it's just normal aging. Other times, it can be a sign of a more serious problem like Alzheimer's disease. This blood test can help your doctor figure out if Alzheimer's might be the cause of your memory problems.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555555; margin-bottom: 15px;">
+                    If the test is negative, it means you are very unlikely to have Alzheimer's disease. Your doctor will then look for other causes of your memory problems. If the test is positive, it means you are more likely to have Alzheimer's disease. Your doctor will then do more tests to be sure.
+                </p>
+            </div>
+        </div>
+
+        
+</body>
+</html>
